@@ -1,0 +1,25 @@
+name: Workflow Security Lint
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+
+permissions: {}
+
+jobs:
+  check-triggers:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Check for dangerous triggers
+        run: |
+          FOUND=$(grep -rn "pull_request_target\|workflow_run" .github/workflows/ || true)
+          if [ -n "$FOUND" ]; then
+            echo "::error::Dangerous trigger detected. Use pull_request instead."
+            echo "$FOUND"
+            exit 1
+          fi
+          echo "No dangerous triggers found."
+
