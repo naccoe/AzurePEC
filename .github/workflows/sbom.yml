@@ -2,8 +2,8 @@ name: Generate SBOM
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: "0 6 * * 1"  # Weekly on Monday at 6am UTC
+  # schedule:
+    # - cron: "0 6 * * 1"  # Weekly on Monday at 6am UTC
 
 permissions: {}
 
@@ -20,4 +20,3 @@ jobs:
           output-file: sbom.cdx.json
           upload-artifact: true
           upload-release-assets: true
-
